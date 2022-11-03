@@ -1,0 +1,51 @@
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="testchart.js"></script>
+
+<form action="/action_page.php">
+    <label for="fname">Parameter 1:</label>
+    <input type="text" id="p1" name="p1"><br><br>
+    <label for="lname">Parameter 2:</label>
+    <input type="text" id="p2" name="p2"><br><br>
+    <label for="lname">Parameter 3:</label>
+    <input type="text" id="p3" name="p3"><br><br>
+    <input type="submit" value="Submit">
+  </form>
+
+
+<script>
+    const labels = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+    ];
+  
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Interactive Visualization',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [0, 10, 5, 2, 20, 30, 45],
+      }]
+    };
+  
+    const config = {
+      type: 'line',
+      data: data,
+      options: {}
+    };
+  </script>
+
+<script>
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+  </script>
+
