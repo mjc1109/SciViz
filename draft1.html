@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content=""width=device-width, initial-scale="1.0" />
+		<title>Interactive Visualization</title>
+		<style type="text/css">
+			.chartBox {
+				width: 700px;
+			}
+		</style>
+	</head>
+	<body style="background-color: rgba(255, 250, 209, 0.947);">
+		<div class = "chartBox">
+			<form>
+				<h1>Interactive Visualization</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					Duis vitae leo orci. Proin dictum nulla a magna facilisis gravida. 
+					Vestibulum ante ipsum primis in faucibus orci luctus et 
+					ultrices posuere cubilia curae; Quisque ultrices enim odio, 
+					ut cursus nisl tincidunt sit amet. Cras bibendum non turpis 
+					sed aliquam. Nullam malesuada placerat metus sed auctor. Vivamus 
+					pretium, mauris a blandit hendrerit, ex dui elementum orci, varius 
+					tempus odio ex eget neque. All parameters are initially set to 1.</p>
+
+				<label for="param1">A:</label>
+				<input type="number" id="param1" name="param1">
+				
+				<label for="param2"> B:</label>
+				<input type="number" id="param2" name="param2">
+				
+				<label for="param3">C:</label>
+				<input type="number" id="param3" name="param3"><br><br>
+				
+				<button type="reset">Clear Parameters</button>
+				<input type="button" value="Apply Parameters" onClick="updateChart()">
+			  </form>
+			<canvas id = "myChart"></canvas>
+		</div>
+
+		<script src="testchart.js"></script>
+		<script>
+			var data = [];
+			//basically, begin with all param's equal to 1
+			for (let x = 0; x <= 200; x++) {
+				//later on, we should make the equations be calculated with function calls
+				data.push([x, x*x + x + 1]);
+			}
+		</script>
+
+		<script>
+		const ctx = document.getElementById('myChart').getContext('2d');
+
+		const config = {
+			type: 'line',
+			data: {
+				datasets: [{
+					label: "Ax^2 + Bx + C",
+					borderColor: 'red',
+					borderWidth: 1,
+					radius: 0,
+					data: data,
+				}]
+			},
+			options: {
+				interaction: {
+					intersect: false
+				},
+				plugins: {
+					legend: {
+						display: true,
+						text: "This is a graph!"
+					}
+				},
+				scales: {
+					x: {
+						type: 'linear'
+					}
+				}
+			}
+		};
+
+		const myChart = new Chart(ctx, config);
+
+		function updateChart() {
+			//we can manipulate data here!
+			const p1 = parseFloat(document.getElementById("param1").value);
+			const p2 = parseFloat(document.getElementById("param2").value);
+			const p3 = parseFloat(document.getElementById("param3").value);
+			
+			if (!Number.isNaN(p1) && !Number.isNaN(p2) && !Number.isNaN(p3)) {
+
+				data.splice(0, data.length);
+			
+				//push on data for equations with new parameters
+				for (let x = 0; x <= 200; x++) {
+					//later on, we should make the equations be calculated with function calls:
+					data.push([x, p1*x*x + p2*x + p3]); //ex. "p1*x*x + p2*x + p3" should be f1(x)
+				}
+
+				myChart.update();
+			} else {
+				alert("All parameter fields must be correctly populated to apply parameters");
+			}
+		}
+		</script>
+
+		<button onclick="download_csv_file()"> Download CSV </button>
+		
+		<script>
+			//DOWNLOAD IS ONLY WORKING FOR THE FIRST EQUATION, MUST FIGURE OUT HOW TO DO MULTIPLE
+			function download_csv_file() {  
+                alert("Download button has no functionality yet!"); 
+			}
+		</script>
+
+	</body>
+</html>
