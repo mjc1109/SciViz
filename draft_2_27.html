@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content=""width=device-width, initial-scale="1.0" />
+		<title>Interactive Visualization</title>
+		<style type="text/css">
+			.chartBox {
+				width: 950px;
+			}
+		</style>
+	</head>
+	<body style="background-color: rgba(255, 250, 209, 0.947);">
+		<div class = "chartBox">
+			<form>
+				<h1>Interactive Visualization</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					Duis vitae leo orci. Proin dictum nulla a magna facilisis gravida. 
+					Vestibulum ante ipsum primis in faucibus orci luctus et 
+					ultrices posuere cubilia curae; Quisque ultrices enim odio, 
+					ut cursus nisl tincidunt sit amet. Cras bibendum non turpis 
+					sed aliquam. Nullam malesuada placerat metus sed auctor. Vivamus 
+					pretium, mauris a blandit hendrerit, ex dui elementum orci, varius 
+					tempus odio ex eget neque. <br><br><strong>All parameters are initially set to 1.</strong></p>
+
+				<label for="param1">A:</label>
+				<input type="number" id="param1" name="param1">
+				
+				<label for="param2"> B:</label>
+				<input type="number" id="param2" name="param2"><br><br>
+				
+				<label for="param3">C:</label>
+				<input type="number" id="param3" name="param3">
+				
+				<label for="param4"> D:</label>
+				<input type="number" id="param4" name="param4"><br><br>
+				
+				<label for="param5">E:</label>
+				<input type="number" id="param5" name="param5"><br><br>
+				
+				<button type="reset">Clear Parameters</button>
+				<input type="button" value="Apply Parameters" onClick="updateChart()">
+			  </form>
+			<canvas id = "chart1"></canvas>
+			<canvas id = "chart2"></canvas>
+		</div>
+
+		<script src="./testchart.js"></script>
+		<script src="./functions.js"></script>
+		<script>
+			var data = [];
+			var data2 = [];
+			var data3 = [];
+			var data4 = [];
+			//basically, begin with all param's equal to 1
+			for (let x = 0; x <= 100; x++) {
+				//later on, we should make the equations be calculated with function calls
+				data.push([x, fun1(x, 1, 1, 1)]);
+				data2.push([x, fun2(x, 1, 1, 1)]);
+				data3.push([x, fun3(x, 1, 1)]);
+				data4.push([x, fun4(x, 1, 1)]);
+			}
+
+		</script>
+		<script src="./config.js"></script>	
+		<script>
+		
+			const ctx1 = document.getElementById('chart1').getContext('2d');
+			const ctx2 = document.getElementById('chart2').getContext('2d');
+
+			const chart1 = new Chart(ctx1, config);
+			const chart2 = new Chart(ctx2, config);
+
+			function updateChart() {
+				//we can manipulate data here!
+				const p1 = parseFloat(document.getElementById("param1").value);
+				const p2 = parseFloat(document.getElementById("param2").value);
+				const p3 = parseFloat(document.getElementById("param3").value);
+				const p4 = parseFloat(document.getElementById("param4").value);
+				const p5 = parseFloat(document.getElementById("param5").value);
+				
+				if (!Number.isNaN(p1) && !Number.isNaN(p2) && !Number.isNaN(p3) 
+					&& !Number.isNaN(p4) && !Number.isNaN(p5)) {
+
+					data.splice(0, data.length);
+					data2.splice(0, data2.length);
+					data3.splice(0, data3.length);
+					data4.splice(0, data4.length);
+				
+					//push on data for equations with new parameters
+					for (let x = 0; x <= 100; x++) {
+						//later on, we should make the equations be calculated with function calls:
+						data.push([x, fun1(x, p1, p2, p3)]); //ex. "p1*x*x*x + p2*x*x + p3*x" should be f1(x)
+						data2.push([x, fun2(x, p1, p2, p3)]);
+						data3.push([x, fun3(x, p4, p5)]);
+						data4.push([x, fun4(x, p4, p5)]);
+					}
+
+					myChart.update();
+				} else {
+					alert("All parameter fields must be filled with a valid number.");
+				}
+			}
+		</script>
+
+		<button onclick="download_csv_file()"> Download CSV </button><br><br>
+		<a href="./contributors.html"title="Contributors"> Contributor page </a>
+		
+		<script>
+			//DOWNLOAD IS ONLY WORKING FOR THE FIRST EQUATION, MUST FIGURE OUT HOW TO DO MULTIPLE
+			function download_csv_file() {  
+  
+				//set size of data
+				const dataSize = 100;
+
+				//define the heading for each row of the data  
+				var csv = 'X,Ax^3 + Bx^2 + Cx,Ax^2 + Bx + C,Dcos(Ex),(Dcos(Ex))^3\n';
+
+				for (let i = 0; i <= dataSize; i++) {
+					csv += i;
+					csv += ","
+					csv += data[i][1];
+					csv += ","
+					csv += data2[i][1];
+					csv += ","
+					csv += data3[i][1];
+					csv += ","
+					csv += data4[i][1];
+					csv += "\n";
+				} 
+
+				var hiddenElement = document.createElement('a');  
+				hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
+				hiddenElement.target = '_blank';  
+
+				//provide the name for the CSV file to be downloaded  
+				hiddenElement.download = 'data.csv';  
+				hiddenElement.click();  
+			}
+		</script>
+
+	</body>
+</html>
