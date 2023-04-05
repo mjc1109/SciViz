@@ -1,0 +1,11 @@
+#yValGeneration { 
+    float: right;
+    position: fixed; left: 500px; top: 50px;
+    padding-left: 500px;
+    padding-top: 0px;
+    width: 150px;
+    /*height: $height; // variable replace with actual position: fixed; // boom background: $yellow; // variable replace with actual }
+
+#elementYouwantoScroll { 
+    width:100%; 
+    height:$height; // variable replace with actual overflow-y:scroll; // scroll -webkit-overflow-scrolling: touch;
