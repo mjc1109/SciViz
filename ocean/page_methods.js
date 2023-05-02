@@ -50,7 +50,7 @@ function generateY() {
 function download_csv_file() {  
 
     //set size of data
-    const dataSize = 100;
+    const dataSize = data.length;
 
     //define the heading for each row of the data (i.e. each equation) 
     var csv = 'X,Alongshore Winds\n';
